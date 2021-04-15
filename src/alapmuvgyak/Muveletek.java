@@ -1,6 +1,13 @@
 package alapmuvgyak;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 public class Muveletek extends javax.swing.JFrame {
 
@@ -21,6 +28,8 @@ public class Muveletek extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jFileChooser1 = new javax.swing.JFileChooser();
+        jMenuItem1 = new javax.swing.JMenuItem();
         pnlGyakorlas = new javax.swing.JPanel();
         lblFeladat = new javax.swing.JLabel();
         txtEredmeny = new javax.swing.JTextField();
@@ -41,16 +50,19 @@ public class Muveletek extends javax.swing.JFrame {
         lblOsztasProba = new javax.swing.JLabel();
         lblSzorzasProba = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mnuFajl = new javax.swing.JMenu();
+        mnufajl = new javax.swing.JMenu();
         mnuFajlMegnyit = new javax.swing.JMenuItem();
         mnuFajlMent = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mnuFajlKilep = new javax.swing.JMenuItem();
+        mnuFajlMentesMaskent = new javax.swing.JMenuItem();
         mnuMuvelet = new javax.swing.JMenu();
         mnMuveletOsszead = new javax.swing.JRadioButtonMenuItem();
         mnMuveletKivon = new javax.swing.JRadioButtonMenuItem();
         mnMuveletOsztas = new javax.swing.JRadioButtonMenuItem();
         mnMuveletSzorzas = new javax.swing.JRadioButtonMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Alapműveletek gyakoroltatása");
@@ -74,15 +86,14 @@ public class Muveletek extends javax.swing.JFrame {
             pnlGyakorlasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGyakorlasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlGyakorlasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pnlGyakorlasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblValasz, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlGyakorlasLayout.createSequentialGroup()
-                        .addComponent(lblFeladat, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtEredmeny, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(lblFeladat, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(69, 69, 69)
+                .addComponent(txtEredmeny, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnEllenorzes)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlGyakorlasLayout.setVerticalGroup(
             pnlGyakorlasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,7 +167,7 @@ public class Muveletek extends javax.swing.JFrame {
                             .addComponent(lblOsztasKerdes, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblSzorzasKerdes, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblOsszKerdes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblKivonasProba, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblSzorzasProba, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -198,19 +209,32 @@ public class Muveletek extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        mnuFajl.setText("Fájl");
+        mnufajl.setText("Fájl");
 
         mnuFajlMegnyit.setText("Megnyit");
-        mnuFajl.add(mnuFajlMegnyit);
+        mnufajl.add(mnuFajlMegnyit);
 
         mnuFajlMent.setText("Ment");
-        mnuFajl.add(mnuFajlMent);
-        mnuFajl.add(jSeparator1);
+        mnuFajlMent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFajlMentActionPerformed(evt);
+            }
+        });
+        mnufajl.add(mnuFajlMent);
+        mnufajl.add(jSeparator1);
 
         mnuFajlKilep.setText("Kilép");
-        mnuFajl.add(mnuFajlKilep);
+        mnufajl.add(mnuFajlKilep);
 
-        jMenuBar1.add(mnuFajl);
+        mnuFajlMentesMaskent.setText("Mentés másként...");
+        mnuFajlMentesMaskent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFajlMentesMaskentActionPerformed(evt);
+            }
+        });
+        mnufajl.add(mnuFajlMentesMaskent);
+
+        jMenuBar1.add(mnufajl);
 
         mnuMuvelet.setText("Műveletek");
 
@@ -246,14 +270,17 @@ public class Muveletek extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(pnlGyakorlas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnUj, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnMegoldas, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnMegoldas, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(29, 29, 29))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,13 +321,54 @@ public class Muveletek extends javax.swing.JFrame {
  
     
     
-      
+ 
     }//GEN-LAST:event_btnMegoldasActionPerformed
 
     private void mnMuveletOsztasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMuveletOsztasActionPerformed
         osztas();
     }//GEN-LAST:event_mnMuveletOsztasActionPerformed
- 
+
+    private void mnuFajlMentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFajlMentActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Fájl mentése");
+        fc.setCurrentDirectory(new File("."));
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        
+        int valasztottGombErteke = fc.showSaveDialog(this);
+        if(valasztottGombErteke == JFileChooser.APPROVE_OPTION){
+            File f = fc.getSelectedFile();
+            if (f.isDirectory()) {
+                lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + "</html>");
+                try {
+                    Files.write(Paths.get(f.getPath() + "\\stat.txt"), "Statisztika:".getBytes());
+                } catch (IOException ex) {
+                    Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }//GEN-LAST:event_mnuFajlMentActionPerformed
+
+    private void mnuFajlMentesMaskentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFajlMentesMaskentActionPerformed
+        JFileChooser fc = new JFileChooser(new File("."));
+        fc.setDialogTitle("Fájl mentése");
+        
+        
+        int valasztottGombErteke = fc.showSaveDialog(this);
+        if(valasztottGombErteke == JFileChooser.APPROVE_OPTION){
+            File f = fc.getSelectedFile();
+            
+                lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + "</html>");
+                try {
+                    Files.write(Paths.get(f.getPath() + "\\stat.txt"), "Statisztika:".getBytes());
+                } catch (IOException ex) {
+                    Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+        }
+
+    }//GEN-LAST:event_mnuFajlMentesMaskentActionPerformed
+
     private void osztas(){
        
      szam1=rnd.nextInt(10)+1;
@@ -350,7 +418,9 @@ public class Muveletek extends javax.swing.JFrame {
     private javax.swing.JButton btnMegoldas;
     private javax.swing.JButton btnUj;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lblEredmeny;
@@ -370,11 +440,12 @@ public class Muveletek extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem mnMuveletOsszead;
     private javax.swing.JRadioButtonMenuItem mnMuveletOsztas;
     private javax.swing.JRadioButtonMenuItem mnMuveletSzorzas;
-    private javax.swing.JMenu mnuFajl;
     private javax.swing.JMenuItem mnuFajlKilep;
     private javax.swing.JMenuItem mnuFajlMegnyit;
     private javax.swing.JMenuItem mnuFajlMent;
+    private javax.swing.JMenuItem mnuFajlMentesMaskent;
     private javax.swing.JMenu mnuMuvelet;
+    private javax.swing.JMenu mnufajl;
     private javax.swing.JPanel pnlGyakorlas;
     private javax.swing.JTextField txtEredmeny;
     // End of variables declaration//GEN-END:variables
