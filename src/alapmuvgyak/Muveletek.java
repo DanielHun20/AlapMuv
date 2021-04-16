@@ -305,6 +305,7 @@ public class Muveletek extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     Random rnd = new Random();
+    String mentettFajl="";
     int szam1=0;
     int szam2=0;
     double eredmeny=0;
@@ -334,24 +335,37 @@ public class Muveletek extends javax.swing.JFrame {
     }//GEN-LAST:event_mnMuveletOsztasActionPerformed
 
     private void mnuFajlMentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFajlMentActionPerformed
-        JFileChooser fc = new JFileChooser();
-        fc.setDialogTitle("Fájl mentése");
-        fc.setCurrentDirectory(new File("."));
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        
-        int valasztottGombErteke = fc.showSaveDialog(this);
-        if(valasztottGombErteke == JFileChooser.APPROVE_OPTION){
-            File f = fc.getSelectedFile();
-            if (f.isDirectory()) {
-                lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + "</html>");
-                try {
-                    Files.write(Paths.get(f.getPath() + "\\stat.txt"), "Statisztika:".getBytes());
-                } catch (IOException ex) {
-                    Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+  //      JFileChooser fc = new JFileChooser();
+  //      fc.setDialogTitle("Fájl mentése");
+  //      fc.setCurrentDirectory(new File("."));
+  //      fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+  //      
+  //      int valasztottGombErteke = fc.showSaveDialog(this);
+  //      if(valasztottGombErteke == JFileChooser.APPROVE_OPTION){
+  //          File f = fc.getSelectedFile();
+  //          if (f.isDirectory()) {
+  //              lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + "</html>");
+  //              try {
+  //                  Files.write(Paths.get(f.getPath() + "\\stat.txt"), "Statisztika:".getBytes());
+  //              } catch (IOException ex) {
+  //                  Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
+  //              }
+  //          }
+  //      }
+    if (mentettFajl == null){
+    /*az 1. mentésnél mentés másként kell*/
+    mnuFajlMentActionPerformed(evt);
+    }else{
+        /*tovabbiakban megadott helyre es a megadott neven kell menteni a fajlt*/
+    }
+        try {
+            
+            /* a tenyleges kiiras*/
+            Files.write(Paths.get(mentettFajl), "Statisztika:".getBytes());
+            /* a tenyleges kiiras VÉGE*/
+        } catch (IOException ex) {
+            Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_mnuFajlMentActionPerformed
  /*  tesztesetek
     - kiterjesztés megváltoztatása
@@ -398,7 +412,7 @@ public class Muveletek extends javax.swing.JFrame {
                     mentes = false;
                 }
             }
-            
+            /* létezik-e a fájl VÉGE*/
             lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + kit[0] +"</html>");
                 try {
                     /*a tenyleges kiiras*/
