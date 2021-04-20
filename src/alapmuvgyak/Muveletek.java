@@ -217,6 +217,11 @@ public class Muveletek extends javax.swing.JFrame {
         mnufajl.setText("Fájl");
 
         mnuFajlMegnyit.setText("Megnyit");
+        mnuFajlMegnyit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFajlMegnyitActionPerformed(evt);
+            }
+        });
         mnufajl.add(mnuFajlMegnyit);
 
         mnuFajlMent.setText("Ment");
@@ -428,6 +433,38 @@ public class Muveletek extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_mnuFajlMentesMaskentActionPerformed
+
+    private void mnuFajlMegnyitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFajlMegnyitActionPerformed
+        JFileChooser fc = new JFileChooser(new File("."));
+        fc.setDialogTitle("Fájl megnyitása");
+        
+        /*valaszthato fajltipusok beallitasa*/
+        fc.setAcceptAllFileFilterUsed(false);
+        
+        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("PNG és GIF fájlok", "png","gif");
+        fc.addChoosableFileFilter(imgFilter);
+        FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("csak szöveg (*.txt","txt");
+        fc.addChoosableFileFilter(txtFilter);
+        FileNameExtensionFilter pdFilter = new FileNameExtensionFilter("saját(*.pd","pd");
+        fc.addChoosableFileFilter(pdFilter);
+        
+        fc.setFileFilter(txtFilter);
+        
+        /* ha el akarja menteni*/
+        int valasztottGombErteke = fc.showOpenDialog(this);
+        if(valasztottGombErteke == JFileChooser.APPROVE_OPTION){
+            File f = fc.getSelectedFile();
+            String[] kit = ((FileNameExtensionFilter)fc.getFileFilter()).getExtensions();
+            String fn = f.getPath(); // + "." + kit[0];
+            lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + kit[0] +"</html>");
+        
+        
+        }else{
+            JOptionPane.showMessageDialog(this, "A megnyitás megszakítva"
+                    + "", "MEGNYITÁS ÉS SIKERTELEN!", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_mnuFajlMegnyitActionPerformed
 
     private void osztas(){
        
