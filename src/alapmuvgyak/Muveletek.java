@@ -366,7 +366,7 @@ public class Muveletek extends javax.swing.JFrame {
         try {
             
             /* a tenyleges kiiras*/
-            Files.write(Paths.get(mentettFajl), "Statisztika:".getBytes());
+            Files.write(Paths.get(mentettFajl), tartalomOsszeallitasa().getBytes());
             /* a tenyleges kiiras VÉGE*/
         } catch (IOException ex) {
             Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
@@ -422,7 +422,7 @@ public class Muveletek extends javax.swing.JFrame {
                 try {
                     /*a tenyleges kiiras*/
                     if (valasztottGombErteke == JOptionPane.YES_OPTION) {
-                    Files.write(path,"Statisztika:".getBytes());
+                    Files.write(path,tartalomOsszeallitasa().getBytes());
                     }
                     /* kiiras vege*/
                 } catch (IOException ex) {
@@ -454,14 +454,10 @@ public class Muveletek extends javax.swing.JFrame {
         int valasztottGombErteke = fc.showOpenDialog(this);
         if(valasztottGombErteke == JFileChooser.APPROVE_OPTION){
             File f = fc.getSelectedFile();
-            String[] kit = ((FileNameExtensionFilter)fc.getFileFilter()).getExtensions();
-            String fn = f.getPath(); // + "." + kit[0];
-            lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + kit[0] +"</html>");
-        
-        
+            String fn = f.getPath();
+            lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>Könyvtár: " + f.getName() + "</html>");
         }else{
-            JOptionPane.showMessageDialog(this, "A megnyitás megszakítva"
-                    + "", "MEGNYITÁS ÉS SIKERTELEN!", JOptionPane.INFORMATION_MESSAGE);
+           JOptionPane.showMessageDialog(this,"A megnyitás megszakítva","A mentés sikertelen!",JOptionPane.INFORMATION_MESSAGE);
         }
         
     }//GEN-LAST:event_mnuFajlMegnyitActionPerformed
@@ -546,4 +542,9 @@ public class Muveletek extends javax.swing.JFrame {
     private javax.swing.JPanel pnlGyakorlas;
     private javax.swing.JTextField txtEredmeny;
     // End of variables declaration//GEN-END:variables
+
+    private String tartalomOsszeallitasa() {
+        String statisztika = "Alapműveletek gyakorlása, statisztika";
+        return statisztika;
+    }
 }
