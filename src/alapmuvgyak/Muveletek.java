@@ -17,20 +17,28 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Muveletek extends javax.swing.JFrame {
-
+    
+    String mentettFajl ="";
+    int osszKerdesSzama= 0;
+    int osszProbakSzama= 0;
+    int osztasKerdesSzama= 0;
+    int osztasProbakSzama= 0;
+    int szorzasKerdesSzama= 0;
+    int szorzasProbakSzama= 0;
+    
+    JLabel[] lblTomb;
+    String[] lblTextTomb;
+    
     /**
      * Creates new form Muveletek
      */
     public Muveletek() {
         initComponents();
+        lblTomb = new JLabel[]{lblOsszKerdes,lblOsszeadKerdes,lblOsszeadProba,lblOsztasKerdes,lblOsztasProba,lblKivonasKerdes,lblKivonasProba,lblSzorzasKerdes,lblSzorzasProba};
+        lblTextTomb = new String[]{"Össz kérdések száma: ","Össz Probálkozások száma: ","Összeadás: ","Összeadás: ","Kivonás: ","Kivonás: ","Osztás: ","Osztás: ","Szorzás: ","Szorzás: "};
+        
     }
-    String mentettFajl ="";
-    int osszKerdesSzama= 0;
-    int osszProbakSzama= 0;
-    int osztaKerdesSzama= 0;
-    int osztasProbakSzama= 0;
-    int szorzasKerdesSzama= 0;
-    int szorzasProbakSzama= 0;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -362,8 +370,8 @@ public class Muveletek extends javax.swing.JFrame {
         osszKerdesSzama++;
         lblOsszKerdes.setText("Össz kérdések száma: " + osszKerdesSzama);
         
-        osztaKerdesSzama++;
-        lblOsztasKerdes.setText("Osztas: " + osztaKerdesSzama);
+        osztasKerdesSzama++;
+        lblOsztasKerdes.setText("Osztas: " + osztasKerdesSzama);
         
     }//GEN-LAST:event_mnuMuveletOsztasActionPerformed
 
@@ -437,12 +445,12 @@ public class Muveletek extends javax.swing.JFrame {
             /* kiterjesztes vizsgalata VÉGE*/
             
             /* létezik-e a fájl*/
+            Path path= Paths.get(fn);
             boolean mentes = true;
-            Path path = Paths.get(fn);
             if(Files.exists(path)){
-                JOptionPane.showConfirmDialog(this, "Felülírjam?", "A fájl már létezik!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-                if(valasztottGombErteke == JOptionPane.NO_OPTION){
-                    mentes = false;
+               valasztottGombErteke = JOptionPane.showConfirmDialog(this,"Felülírjam?","A fájl már létezik",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+                if (valasztottGombErteke == JOptionPane.NO_OPTION) {
+                     mentes = false;
                 }
             }
             /* létezik-e a fájl VÉGE*/
@@ -486,18 +494,75 @@ public class Muveletek extends javax.swing.JFrame {
             lblEredmeny.setText("<html>Elérés: "+f.getPath()+"<br>Fájl neve:"+f.getName()+"</html>");
             Path path= Paths.get(fn);
             try {
-                List<String> stringlist = Files.readAllLines(path);
-                String egysor = stringlist.get(1);
-                String[] adatok = egysor.split(":");
-                //"".trim();
-               //byte [] bajtTomb = Files.readAllBytes(path);
+                //                byte[] bajtTomb = Files.readAllBytes(path);
+//                byte egyBajt = bajtTomb[1];
+                List<String> stringLista = Files.readAllLines(path);
+
+                //*2.😘
+                int lblIndex = 0;
+                for (int i = 0; i < stringLista.size(); i++) {
+                    String egySor = stringLista.get(i);
+                    String[] adatok = egySor.split(": ");
+                    JLabel lbl = lblTomb[lblIndex + 1];
+                    lbl.setText(lblTextTomb[lblIndex + 1] + adatok[2]);
+                    adatok = adatok[1].split(" ");
+                    lbl = lblTomb[lblIndex];
+                    lbl.setText(lblTextTomb[lblIndex] + adatok[0]);
+                    lblIndex += 2;
+                }
+
+//                //fejléc: Össz
+//                String egySor = stringLista.get(1);
+//                String[] adatok = egySor.split(": ");
+//                String probaSzam = adatok[2];
+//                lblOsszProba.setText("Össz próbálkozások száma: " + probaSzam);
+//                adatok = adatok[1].split(" ");
+//                String kerSzam = adatok[0];
+//                lblOsszKerdes.setText("Össz kérdések száma: " + kerSzam);
+//
+//                //Összeadás
+//                egySor = stringLista.get(2);
+//                adatok = egySor.split(": ");
+//                probaSzam = adatok[2];
+//                lblOsszeadProba.setText("Összeadás: " + probaSzam);
+//                adatok = adatok[2].split(" ");
+//                kerSzam = adatok[2];
+//                lblOsszeadKerdes.setText("Összead: " + kerSzam);
+//
+//                //kivonás
+//                egySor = stringLista.get(3);
+//                adatok = egySor.split(": ");
+//                probaSzam = adatok[3];
+//                lblOsszeadProba.setText("Összeadás: " + probaSzam);
+//                adatok = adatok[3].split(" ");
+//                kerSzam = adatok[3];
+//                lblOsszeadKerdes.setText("Összead: " + kerSzam);
+//
+//                //osztás
+//                egySor = stringLista.get(4);
+//                adatok = egySor.split(": ");
+//                probaSzam = adatok[4];
+//                lblOsszeadProba.setText("Összeadás: " + probaSzam);
+//                adatok = adatok[4].split(" ");
+//                kerSzam = adatok[4];
+//                lblOsszeadKerdes.setText("Összead: " + kerSzam);
+//
+//                //szorzás
+//                egySor = stringLista.get(5);
+//                adatok = egySor.split(": ");
+//                probaSzam = adatok[5];
+//                lblOsszeadProba.setText("Összeadás: " + probaSzam);
+//                adatok = adatok[5].split(" ");
+//                kerSzam = adatok[5];
+//                lblOsszeadKerdes.setText("Összead: " + kerSzam);
+
                 int temp = 67;
             } catch (IOException ex) {
                 Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else{
-            JOptionPane.showMessageDialog(this,"A megnyitás megszakítva","A mentés sikertelen!",JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Megnyitás megszakítva", "MEGNYITÁS SIKERTELEN", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_mnuFajlMegnyitActionPerformed
 
@@ -505,7 +570,7 @@ public class Muveletek extends javax.swing.JFrame {
         osszKerdesSzama++;
         lblOsszKerdes.setText("Össz kérdések száma: " + osszKerdesSzama);
         szorzasKerdesSzama++;
-        lblOsztasKerdes.setText("Osztas: " + szorzasKerdesSzama);
+        lblSzorzasKerdes.setText("Szorzás: " + szorzasKerdesSzama);
     }//GEN-LAST:event_mnuMuveletSzorzasActionPerformed
 
    
